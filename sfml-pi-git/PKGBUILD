@@ -1,0 +1,51 @@
+# Maintainer: oi_wtf <brainpower at mailbox dot org>
+
+pkgname=sfml-pi-git
+pkgver=2.3.2
+pkgrel=1
+pkgdesc=" SFML for the Raspberry Pi (w/ hardware accelerated graphics and no X dependency)"
+arch=('armv7h')
+url="https://github.com/mickelson/sfml-pi"
+license=('zlib')
+depends=('libjpeg' 'openal' 'libsndfile' 'freetype2')
+makedepends=('cmake' 'git')
+provides=('sfml')
+conflicts=('sfml')
+replaces=('sfml')
+options=('debug')
+
+source=("git+https://github.com/mickelson/sfml-pi.git"
+        "0001-fix_cmake_module_install_path.patch")
+sha256sums=('SKIP'
+            'c0be2636b1d342f636f2587e043dbfa8becdd8d9c65044cf7749ab4b2c81eb47')
+
+prepare() {
+  cd "$srcdir/sfml-pi"
+  patch -p0 -i "$srcdir/0001-fix_cmake_module_install_path.patch"
+}
+
+build() {
+  cd "$srcdir/sfml-pi"
+
+  cmake -DCMAKE_INSTALL_PREFIX=/usr . \
+        -DCMAKE_BUILD_TYPE=RelWithDebugInfo \
+        -DBUILD_DOC=false \
+        -DBUILD_EXAMPLES=false \
+        -DSFML_RPI=1 \
+        -DEGL_INCLUDE_DIR=/opt/vc/include \
+        -DEGL_LIBRARY=/opt/vc/lib/libEGL.so \
+        -DGLES_INCLUDE_DIR=/opt/vc/include \
+        -DGLES_LIBRARY=/opt/vc/lib/libGLESv1_CM.so
+  make
+}
+
+package() {
+  cd "$srcdir/sfml-pi"
+
+  make DESTDIR="$pkgdir/" install
+
+  install -Dm644 ./license.txt ${pkgdir}/usr/share/licenses/${pkgname}/LICENSE
+
+}
+
+# vim:set ts=2 sw=2 et:

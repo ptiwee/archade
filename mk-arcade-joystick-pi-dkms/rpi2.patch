@@ -1,0 +1,12 @@
+--- a/Makefile	2016-08-10 10:02:50.871056887 +0000
++++ b/Makefile	2016-08-10 10:04:30.441387703 +0000
+@@ -1,9 +1,7 @@
+ obj-m := mk_arcade_joystick_rpi.o
+ KVERSION := `uname -r`
+ 
+-ifneq (,$(findstring -v7, $(KVERSION)))
+ CFLAGS_mk_arcade_joystick_rpi.o := -DRPI2
+-endif
+ 
+ all:
+ 	$(MAKE) -C /lib/modules/$(KVERSION)/build M=$(PWD) modules

@@ -1,0 +1,68 @@
+# Maintainer:  Kamran Mackey <kamranm1200@gmail.com>
+# Contributor: richteer <richteer at lastprime.net>
+# Contributor: DrZaius <lou at fakeoutdoorsman.com>
+
+pkgname=ffmpeg-pi-git
+pkgver=3.2.r81310.g4506f91
+pkgrel=1
+pkgdesc="Complete solution to record, convert and stream audio and video (git version)"
+arch=('armv7h')
+license=('GPL3' 'Non-free')
+url="http://ffmpeg.org/"
+depends=('libass' 'lame' 'opus' 'libtheora' 'libvpx' 'libx264' 'x265')
+makedepends=('yasm' 'git')
+optdepends=('ladspa: LADSPA filters')
+provides=('ffmpeg' 'libavcodec.so' 'libavdevice.so' 'libavfilter.so'
+          'libavformat.so' 'libavutil.so' 'libpostproc.so'
+	  'libswresample.so' 'libswscale.so')
+conflicts=('ffmpeg' 'ffmpeg-full-git')
+source=("$pkgname"::'git://source.ffmpeg.org/ffmpeg.git')
+md5sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  _ver="$(git describe --tags | sed 's|-[^.]*$||' | sed 's|^n||')"
+  _rev="$(git rev-list --count HEAD)"
+  _gitid="$(git rev-parse --short HEAD)"
+  echo "${_ver}.r${_rev}.g${_gitid}"
+}
+
+build() {
+  cd "$srcdir/$pkgname"
+
+  ./configure --prefix=/usr \
+	      --disable-debug \
+              --disable-doc \
+              --disable-ffplay \
+              --disable-ffprobe \
+              --disable-ffserver \
+              --disable-manpages \
+              --disable-podpages \
+              --disable-txtpages \
+	      --disable-static \
+              --enable-gpl \
+	      --enable-libass \
+	      --enable-libfreetype \
+    	      --enable-libfribidi \
+	      --enable-libmp3lame \
+	      --enable-libopus \
+	      --enable-libtheora \
+	      --enable-libvorbis \
+	      --enable-libvpx \
+	      --enable-libx264 \
+	      --enable-libx265 \
+              --enable-mmal \
+	      --enable-nonfree \
+	      --enable-shared
+
+  make EXTRA_CFLAGS="$CFLAGS"
+  make tools/qt-faststart
+}
+
+package() {
+  cd "$srcdir/$pkgname"
+  make DESTDIR="$pkgdir" install
+  install -D -m755 tools/qt-faststart "$pkgdir/usr/bin/qt-faststart"
+}
+
+# vim: ts=8 sw=8 et:

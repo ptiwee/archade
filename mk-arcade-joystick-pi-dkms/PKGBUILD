@@ -1,0 +1,29 @@
+_pkgname=mk_arcade_joystick_rpi
+pkgname=mk-arcade-joystick-pi-dkms
+pkgver=1.0.5
+pkgrel=1
+pkgdesc="The Raspberry Pi GPIO Joystick Driver"
+arch=('armv7h')
+url="https://github.com/recalbox/mk_arcade_joystick_rpi"
+license=('GPL2')
+depends=('dkms' 'gcc' 'make' 'linux-raspberrypi-headers')
+makedepends=('git')
+install=${pkgname}.install
+
+source=("$_pkgname::git+${url}.git"
+	"rpi2.patch")
+sha512sums=('SKIP'
+	    'SKIP')
+
+prepare() {
+    cd $_pkgname
+    sed -i 's|PACKAGE_VERSION="[^"]*"|PACKAGE_VERSION="'$pkgver'"|' dkms.conf
+}
+
+package() {
+    cd ${_pkgname}/
+    patch -Np1 -i ../../rpi2.patch
+
+    install -d "$pkgdir"/usr/src/${_pkgname}-${pkgver}
+    cp -r {Makefile,${_pkgname}.c,dkms.conf} "$pkgdir"/usr/src/${_pkgname}-${pkgver}/
+}
