@@ -9,6 +9,9 @@ depends=('glibc')
 makedepends=('alsa-lib' 'raspberrypi-firmware')
 optdepends=('alsa-lib: ALSA audio driver'
             'libpulse: PulseAudio audio driver')
+conflicts=('sdl2')
+provides=('sdl2')
+replaces=('sdl2')
 source=("http://www.libsdl.org/release/SDL2-${pkgver}.tar.gz")
 md5sums=('44fc4a023349933e7f5d7a582f7b886e')
 
