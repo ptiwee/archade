@@ -3,13 +3,13 @@
 # Contributor: DrZaius <lou at fakeoutdoorsman.com>
 
 pkgname=ffmpeg-pi-git
-pkgver=3.2.r81310.g4506f91
+pkgver=3.2.r81427.geb5f4b1
 pkgrel=1
 pkgdesc="Complete solution to record, convert and stream audio and video (git version)"
 arch=('armv7h')
 license=('GPL3' 'Non-free')
 url="http://ffmpeg.org/"
-depends=('libass' 'lame' 'opus' 'libtheora' 'libvpx' 'libx264' 'x265')
+depends=('libass' 'lame' 'opus' 'libtheora' 'libvorbis' 'libvpx' 'libx264' 'x265')
 makedepends=('yasm' 'git')
 optdepends=('ladspa: LADSPA filters')
 provides=('ffmpeg' 'libavcodec.so' 'libavdevice.so' 'libavfilter.so'
