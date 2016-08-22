@@ -12,7 +12,6 @@ makedepends=('cmake' 'git')
 provides=('sfml')
 conflicts=('sfml')
 replaces=('sfml')
-options=('debug')
 
 source=("git+https://github.com/mickelson/sfml-pi.git"
         "0001-fix_cmake_module_install_path.patch")
