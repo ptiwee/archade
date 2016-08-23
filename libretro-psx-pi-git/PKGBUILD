@@ -1,0 +1,42 @@
+# Maintainer: Thomas Schneider <maxmusterm@gmail.com>
+# Contributor:  prettyvanilla <prettyvanilla@posteo.at>
+# Contributor: almostalive   <almostalive2003 at gmail dot com>
+
+pkgname=libretro-psx-pi-git
+pkgver=1220.1cc8c85
+pkgrel=1
+pkgdesc="Libretro implementation for PlayStation games (PCSX ReARMed)"
+arch=('armv7h')
+url="https://github.com/libretro/pcsx_rearmed"
+license=('GPL')
+conflicts=('libretro-pcsx_rearmed-git')
+depends=('zlib')
+makedepends=('git')
+
+_libname=pcsx_rearmed_libretro
+_gitname=pcsx_rearmed
+source=("git+https://github.com/libretro/${_gitname}.git"
+        "https://raw.github.com/libretro/libretro-super/master/dist/info/${_libname}.info"
+	"disable_x.patch")
+md5sums=('SKIP'
+         'SKIP'
+	 'SKIP')
+
+pkgver() {
+  cd "${_gitname}"
+  echo $(git rev-list --count HEAD).$(git rev-parse --short HEAD)
+}
+
+build() {
+  cd "${_gitname}"
+  export CFLAGS="-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
+  export CXXFLAGS=$CFLAGS
+  patch -Np1 -i ../../disable_x.patch
+  ./configure --platform=libretro --enable-neon
+  make
+}
+
+package() {
+  install -Dm644 "${_gitname}/libretro.so" "${pkgdir}/usr/lib/libretro/libretro-psx.so"
+  install -Dm644 "${_libname}.info" "${pkgdir}/usr/lib/libretro/libretro-psx.info"
+}
