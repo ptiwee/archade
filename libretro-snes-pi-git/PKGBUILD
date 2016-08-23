@@ -1,0 +1,38 @@
+# Maintainer: Maxime Gauduin <alucryd@archlinux.org>
+
+pkgname=libretro-snes-pi-git
+pkgver=r529.dc471a4
+pkgrel=1
+pkgdesc='Libretro implementation for SNES games (snes9x)'
+arch=('armv7h')
+url='https://github.com/libretro/snes9x'
+license=('custom' 'GPL2' 'LGPL2.1')
+groups=('libretro')
+depends=('gcc-libs' 'glibc')
+makedepends=('git')
+source=('libretro-snes9x::git+https://github.com/libretro/snes9x.git'
+        'https://raw.githubusercontent.com/libretro/libretro-super/master/dist/info/snes9x_libretro.info')
+sha256sums=('SKIP'
+            'f33c86afa1d776e0c1b10d5b3096d76a72630629f483b5101ce6c28808132af8')
+
+pkgver() {
+  cd libretro-snes9x
+
+  echo "r$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd libretro-snes9x/libretro
+
+  make
+}
+
+package() {
+  cd libretro-snes9x/libretro
+
+  install -dm 755 "${pkgdir}"/usr/lib/libretro
+  install -m 644 snes9x_libretro.so "${pkgdir}"/usr/lib/libretro/libretro-snes.so
+  install -m 644 ../../snes9x_libretro.info "${pkgdir}"/usr/lib/libretro/libretro-snes.info
+}
+
+# vim: ts=2 sw=2 et:
