@@ -1,10 +1,10 @@
 pkgname=retroarch-pi-git
 _gitname=RetroArch
 epoch=2
-pkgver=1.3.6.r547.339ea74
+pkgver=1.3.6.r1941.df87fc7
 pkgrel=1
 pkgdesc="Simple frontend for the Libretro API"
-arch=('armv7h')
+arch=('armv6h' 'armv7h')
 url="http://github.com/libretro/RetroArch"
 license=('GPL3')
 depends=('ffmpeg' 'python' 'sdl2')
