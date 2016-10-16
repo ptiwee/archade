@@ -1,8 +1,8 @@
 pkgname=libretro-arcade-pi-git
-pkgver=144.25ed7a6
-pkgrel=2
+pkgver=170.d5a2be3
+pkgrel=1
 pkgdesc="Libretro implementation for arcade games (Final Burn Alpha)"
-arch=('armv7h')
+arch=('armv6h' 'armv7h')
 url="https://github.com/libretro/fbalpha"
 license=('custom:Non-commercial')
 makedepends=('git')

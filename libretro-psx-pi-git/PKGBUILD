@@ -3,10 +3,10 @@
 # Contributor: almostalive   <almostalive2003 at gmail dot com>
 
 pkgname=libretro-psx-pi-git
-pkgver=1220.1cc8c85
+pkgver=1269.eaa0324
 pkgrel=1
 pkgdesc="Libretro implementation for PlayStation games (PCSX ReARMed)"
-arch=('armv7h')
+arch=('armv6h' 'armv7h')
 url="https://github.com/libretro/pcsx_rearmed"
 license=('GPL')
 conflicts=('libretro-pcsx_rearmed-git')
@@ -29,10 +29,16 @@ pkgver() {
 
 build() {
   cd "${_gitname}"
-  export CFLAGS="-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
-  export CXXFLAGS=$CFLAGS
   patch -Np1 -i ../../disable_x.patch
-  ./configure --platform=libretro --enable-neon
+  if grep -q ARMv7 /proc/cpuinfo; then
+    export CFLAGS="-mcpu=cortex-a7 -mfpu=neon-vfpv4 -mfloat-abi=hard -O3"
+    export CXXFLAGS=$CFLAGS
+    ./configure --platform=libretro --enable-neon
+  else
+    export CFLAGS="-march=armv6j -mfpu=vfp -mfloat-abi=hard"
+    export CXXFLAGS=$CFLAGS
+    ./configure --platform=libretro --disable-neon
+  fi
   make
 }
 

@@ -3,10 +3,10 @@
 # Contributor: almostalive   <almostalive2003 at gmail dot com>
 
 pkgname=libretro-snes-pi-git
-pkgver=810.906065d
+pkgver=820.7d87c6a
 pkgrel=1
 pkgdesc="Libretro implementation for SNES games (snes9x-next)"
-arch=('armv7h')
+arch=('armv6h' 'armv7h')
 url="https://github.com/libretro/snes9x-next"
 license=('custom')
 makedepends=('git')

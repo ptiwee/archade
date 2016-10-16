@@ -3,10 +3,10 @@
 # Contributor: DrZaius <lou at fakeoutdoorsman.com>
 
 pkgname=ffmpeg-pi-git
-pkgver=3.2.r81427.geb5f4b1
+pkgver=3.2.r81998.g4599e11
 pkgrel=1
 pkgdesc="Complete solution to record, convert and stream audio and video (git version)"
-arch=('armv7h')
+arch=('armv6h' 'armv7h')
 license=('GPL3' 'Non-free')
 url="http://ffmpeg.org/"
 depends=('libass' 'lame' 'opus' 'libtheora' 'libvorbis' 'libvpx' 'libx264' 'x265')
