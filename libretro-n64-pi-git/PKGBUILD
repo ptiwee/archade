@@ -1,0 +1,31 @@
+pkgname=libretro-n64-pi-git
+pkgver=r332.2aba173
+pkgrel=1
+pkgdesc="Libretro implementation for N64 games. (glupen64)"
+arch=('armv6h' 'armv7h' 'x86_64')
+url="git@github.com/loganmc10/GLupeN64.git"
+license=('GPLv2')
+groups=('libretro')
+makedepends=('git')
+_libname=glupen64_libretro
+_gitname=GLupeN64
+source=("git+https://github.com/loganmc10/${_gitname}.git")
+md5sums=('SKIP')
+
+pkgver() {
+
+  cd "${_gitname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+
+}
+
+build() {
+
+  cd "${_gitname}"
+  make
+
+}
+
+package() {
+  install -Dm644 "${srcdir}/${_gitname}/${_libname}.so" "${pkgdir}/usr/lib/libretro/libretro-n64.so"
+}
