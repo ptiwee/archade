@@ -1,0 +1,10 @@
+--- a/configure	2016-08-23 06:27:01.551260458 +0000
++++ b/configure	2016-08-23 06:30:23.219116868 +0000
+@@ -448,7 +448,6 @@
+   if [ -f /opt/vc/lib/libbcm_host.so ]; then
+     LDLIBS_GLES="$LDLIBS_GLES -lbcm_host"
+   fi
+-  need_xlib="yes"
+ fi
+ 
+ # check for GLES headers

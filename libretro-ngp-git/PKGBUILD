@@ -1,0 +1,27 @@
+pkgname=libretro-ngp-git
+pkgver=r738.e873f7a
+pkgrel=1
+pkgdesc="Libretro implementation for Neo Geo Pocket/Color games. (Beetle-NGP)"
+arch=('armv6h' 'armv7h' 'i686' 'x86_64')
+url="https://github.com/libretro/beetle-ngp-libretro"
+license=('GPL-2.0')
+groups=('libretro')
+makedepends=('git')
+_libname=mednafen_ngp_libretro
+_gitname=beetle-ngp-libretro
+source=("git+https://github.com/libretro/${_gitname}.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "${_gitname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  cd "${_gitname}"
+  make
+}
+
+package() {
+  install -Dm644 "${_gitname}/${_libname}.so" "${pkgdir}/usr/lib/libretro/libretro-ngp.so"
+}

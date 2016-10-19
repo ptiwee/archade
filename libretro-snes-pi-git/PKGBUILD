@@ -3,17 +3,17 @@
 # Contributor: almostalive   <almostalive2003 at gmail dot com>
 
 pkgname=libretro-snes-pi-git
-pkgver=820.7d87c6a
+pkgver=157.bb0fecf
 pkgrel=1
 pkgdesc="Libretro implementation for SNES games (pocketsnes)"
-arch=('armv6h' 'armv7h')
+arch=('armv6h' 'armv7h' 'x86_64')
 url="https://github.com/libretro/snes9x-next"
 license=('custom')
 makedepends=('git')
 
-_gitname=snes9x2002
+_gitname=snes9x2005
 source=("git+https://github.com/libretro/${_gitname}.git"
-        "https://raw.github.com/libretro/libretro-super/master/dist/info/snes9x2002_libretro.info")
+        "https://raw.github.com/libretro/libretro-super/master/dist/info/snes9x2005_libretro.info")
 md5sums=('SKIP'
          'SKIP')
 
@@ -28,6 +28,6 @@ build() {
 }
 
 package() {
-  install -Dm644 "${_gitname}/pocketsnes_libretro.so" "${pkgdir}/usr/lib/libretro/libretro-snes.so"
-  install -Dm644 "snes9x2002_libretro.info" "${pkgdir}/usr/lib/libretro/libretro-snes.info"
+  install -Dm644 "${_gitname}/snes9x2005_libretro.so" "${pkgdir}/usr/lib/libretro/libretro-snes.so"
+  install -Dm644 "snes9x2005_libretro.info" "${pkgdir}/usr/lib/libretro/libretro-snes.info"
 }

@@ -1,0 +1,34 @@
+pkgname=libretro-gba-git
+pkgver=r295.4d860ae
+pkgrel=1
+pkgdesc="Libretro implementation for GBA games. (gpSP)"
+arch=('armv6h' 'armv7h' 'i686' 'x86_64')
+url="https://github.com/libretro/gpsp"
+license=('GPL-2.0')
+groups=('libretro')
+makedepends=('git')
+_libname=gpsp_libretro
+_gitname=gpsp
+source=("git+https://github.com/libretro/${_gitname}.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "${_gitname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  RPI=`grep -m1 'Revision' /proc/cpuinfo | awk '{print $3}'`
+  case "${RPI}" in
+    a[0|2][1|2]04[0-2]) PLATFORM="platform=rpi2" ;;
+    a[0|2]2082) PLATFORM="platform=rpi3" ;;
+    90009[2|3]) PLATFORM="platform=rpi1" ;;
+  esac
+
+  cd "${_gitname}"
+  make ${PLATFORM}
+}
+
+package() {
+  install -Dm644 "${_gitname}/${_libname}.so" "${pkgdir}/usr/lib/libretro/libretro-gba.so"
+}

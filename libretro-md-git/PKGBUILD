@@ -1,0 +1,38 @@
+pkgname=libretro-md-git
+pkgver=r972.0d87bd6
+pkgrel=1
+pkgdesc="Libretro implementation for Master System/Megadrive games. (PicoDrive)"
+arch=('armv6h' 'armv7h' 'i686' 'x86_64')
+url="https://github.com/libretro/picodrive"
+license=('custom:Non-Commercial')
+groups=('libretro')
+makedepends=('git')
+_libname=picodrive_libretro
+_gitname=picodrive
+source=("git+https://github.com/libretro/${_gitname}.git"
+	"disable_sdl.patch")
+md5sums=('SKIP'
+	 'SKIP')
+
+pkgver() {
+  cd "${_gitname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "${_gitname}"
+  git submodule init
+  git submodule update
+}
+
+build() {
+  cd "${_gitname}"
+  patch -Np1 -i ../../disable_sdl.patch
+  ./configure
+  make -f Makefile.libretro
+}
+
+package() {
+  install -Dm644 "${_gitname}/${_libname}.so" "${pkgdir}/usr/lib/libretro/libretro-md.so"
+  install -Dm644 "${_gitname}/COPYING" "${pkgdir}/usr/share/licenses/${pkgname}/license.txt"
+}
