@@ -1,5 +1,5 @@
 pkgname=libretro-arcade-git
-pkgver=r178.6324165
+pkgver=r183.4dd2e6a
 pkgrel=1
 pkgdesc="Libretro implementation for arcade games. (Final Burn Alpha)"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
@@ -18,6 +18,9 @@ pkgver() {
 }
 
 build() {
+  CFLAGS+=" -Wno-narrowing"
+  CXXFLAGS+=" -Wno-narrowing"
+
   RPI=`grep -m1 'Revision' /proc/cpuinfo | awk '{print $3}'`
   case "${RPI}" in
     a[0|2][1|2]04[0-2]) PLATFORM="platform=rpi2" ;;
