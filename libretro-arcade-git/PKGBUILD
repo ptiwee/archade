@@ -23,8 +23,8 @@ build() {
 
   RPI=`grep -m1 'Revision' /proc/cpuinfo | awk '{print $3}'`
   case "${RPI}" in
-    a[0|2][1|2]04[0-2]) PLATFORM="platform=rpi2" ;;
-    a[0|2]2082) PLATFORM="platform=rpi3" ;;
+    a[0-2][1-2]04[0-2]) PLATFORM="platform=rpi2" ;;
+    a[0-2]2082) PLATFORM="platform=rpi3" ;;
   esac
 
   cd "${_gitname}"
