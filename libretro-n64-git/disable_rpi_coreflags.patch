@@ -1,0 +1,13 @@
+diff --git a/Makefile b/Makefile
+index 7bdede0..d5abad6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -235,7 +235,7 @@ include Makefile.common
+ 
+ ifeq ($(HAVE_NEON), 1)
+    COREFLAGS += -DHAVE_NEON -D__ARM_NEON__ -D__NEON_OPT
+-else
++else ifeq (,$(findstring rpi,$(platform)))
+    COREFLAGS += -mstackrealign -DARCH_MIN_SSE2 -msse -msse2
+ endif
+ 

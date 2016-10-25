@@ -1,5 +1,5 @@
 pkgname=libretro-n64-git
-pkgver=r339.b172600
+pkgver=r342.85e24ce
 pkgrel=1
 pkgdesc="Libretro implementation for N64 games. (GLupeN64)"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
@@ -10,8 +10,10 @@ makedepends=('git')
 _libname=glupen64_libretro
 _gitname=GLupeN64
 source=("git+https://github.com/loganmc10/${_gitname}.git"
-	"arcade_controls.patch")
+	"arcade_controls.patch"
+	"disable_rpi_coreflags.patch")
 md5sums=('SKIP'
+	 'SKIP'
 	 'SKIP')
 
 pkgver() {
@@ -29,6 +31,7 @@ build() {
 
   cd "${_gitname}"
   patch -Np1 -i ../../arcade_controls.patch
+  patch -Np1 -i ../../disable_rpi_coreflags.patch
   make ${PLATFORM}
 }
 
