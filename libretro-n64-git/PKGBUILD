@@ -1,5 +1,5 @@
 pkgname=libretro-n64-git
-pkgver=r341.e72887c
+pkgver=r339.b172600
 pkgrel=1
 pkgdesc="Libretro implementation for N64 games. (GLupeN64)"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
@@ -9,8 +9,10 @@ groups=('libretro')
 makedepends=('git')
 _libname=glupen64_libretro
 _gitname=GLupeN64
-source=("git+https://github.com/loganmc10/${_gitname}.git")
-md5sums=('SKIP')
+source=("git+https://github.com/loganmc10/${_gitname}.git"
+	"arcade_controls.patch")
+md5sums=('SKIP'
+	 'SKIP')
 
 pkgver() {
   cd "${_gitname}"
@@ -26,6 +28,7 @@ build() {
   esac
 
   cd "${_gitname}"
+  patch -Np1 -i ../../arcade_controls.patch
   make ${PLATFORM}
 }
 
