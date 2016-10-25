@@ -1,0 +1,32 @@
+pkgname=libretro-snes-git
+pkgver=r183.4dd2e6a
+pkgrel=1
+pkgdesc="Libretro implementation for SNES games. (PocketSNES)"
+arch=('armv6h' 'armv7h' 'i686' 'x86_64')
+url="https://github.com/libretro/snes9x2002"
+license=('unknown')
+groups=('libretro')
+makedepends=('git')
+_libname=snes9x2002_libretro
+_gitname=snes9x2002
+source=("git+https://github.com/libretro/${_gitname}.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "${_gitname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+build() {
+  if [ "${CARCH}" == 'armv6h' -o "${CARCH}" == 'armv7h' ]; then
+	  ARM = "ARM_ASM=1";
+  fi
+
+  cd "${_gitname}"
+  make ${ARM}
+}
+
+package() {
+  install -Dm644 "${_gitname}/${_libname}.so" "${pkgdir}/usr/lib/libretro/libretro-arcade.so"
+  install -Dm644 "${_gitname}/src/license.txt" "${pkgdir}/usr/share/licenses/${pkgname}/license.txt"
+}
