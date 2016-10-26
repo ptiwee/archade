@@ -1,14 +1,22 @@
 pkgname=libretro-snes-git
-pkgver=r158.32cfef9
+pkgver=r829.ac2c080
 pkgrel=1
-pkgdesc="Libretro implementation for SNES games. (PocketSNES)"
+pkgdesc="Libretro implementation for SNES games. (snes9x)"
 arch=('armv6h' 'armv7h' 'i686' 'x86_64')
-url="https://github.com/libretro/snes9x2002"
 license=('unknown')
 groups=('libretro')
 makedepends=('git')
-_libname=snes9x2002_libretro
-_gitname=snes9x2002
+
+if [ "${CARCH}" == 'armv6h' ]; then
+  url="https://github.com/libretro/snes9x2002"
+  _libname=snes9x2002_libretro
+  _gitname=snes9x2002
+else
+  url="https://github.com/libretro/snes9x2010"
+  _libname=snes9x2010_libretro
+  _gitname=snes9x2010
+fi
+
 source=("git+https://github.com/libretro/${_gitname}.git")
 md5sums=('SKIP')
 
