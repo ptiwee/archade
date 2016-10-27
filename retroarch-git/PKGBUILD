@@ -1,0 +1,43 @@
+pkgname=retroarch-git
+pkgver=r33746.c1b59df
+pkgrel=1
+pkgdesc="Libretro frontend"
+arch=('armv6h' 'armv7h' 'i686' 'x86_64')
+url="https://github.com/libretro/RetroArch"
+license=('GPL3')
+groups=('libretro')
+depends=('sdl2')
+makedepends=('git')
+_gitname=RetroArch
+source=("git+https://github.com/libretro/${_gitname}.git")
+md5sums=('SKIP')
+
+pkgver() {
+  cd "${_gitname}"
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  cd "${_gitname}"
+  git submodule init
+  git submodule update
+}
+
+build() {
+  if [ "${CARCH}" == 'armv7h' ]; then
+    NEON="--enable-neon";
+  fi
+
+  if [ "${CARCH}" == 'armv6h' -o "${CARCH}" == 'armv7h' ]; then
+    ARM="--enable-dispmanx --enable-floathard";
+  fi
+
+  cd "${_gitname}"
+  ./configure --prefix=/usr --disable-ffmpeg $NEON $ARM
+  make
+}
+
+package() {
+  cd "${_gitname}"
+  make install DESTDIR="${pkgdir}"
+}
