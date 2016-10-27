@@ -27,7 +27,7 @@ pkgver() {
 
 build() {
   if [ "${CARCH}" == 'armv6h' -o "${CARCH}" == 'armv7h' ]; then
-	  ARM = "ARM_ASM=1";
+	  ARM="ARM_ASM=1";
   fi
 
   cd "${_gitname}"
